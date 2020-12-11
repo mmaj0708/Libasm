@@ -1,7 +1,26 @@
 
 section .text
 global ft_strdup
+extern ft_strcpy
+extern ft_strlen
+extern malloc
 
 ft_strdup:
 
-call malloc
+push	rdi		;rdi est modifié une fois qu'une fct est appelée
+call	ft_strlen
+inc		rax ;rax = le ret de la fct appelée
+mov		rdi, rcx  ;placer la len de str dans l'arg pr malloc
+
+call	malloc ;l'adr allouée est dans rax
+; jz		end ; go to end si malloc fail
+pop		rdi ; récup le src_ptr calé sur la stack
+mov		rsi, rdi
+mov		rdi, rax ; placer les args pour strcpy
+
+call	ft_strcpy
+
+ret
+
+
+
