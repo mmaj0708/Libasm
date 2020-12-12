@@ -6,7 +6,7 @@
 /*   By: mmaj <mmaj@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 16:19:48 by mmaj              #+#    #+#             */
-/*   Updated: 2020/12/12 12:59:00 by mmaj             ###   ########.fr       */
+/*   Updated: 2020/12/12 15:39:21 by mmaj             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	test_ft_strcmp()
 	printf("check strcmp = %d\n\n", strcmp("bon", "bon"));
 
 	printf("-------first_str_shorter------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("bon", "bonjour"));
-	printf("check strcmp = %d\n\n", strcmp("bon", "bonjour"));
+	printf("check ft_strcmp = %d\n", ft_strcmp("boz", "bonjour"));
+	printf("check strcmp = %d\n\n", strcmp("boz", "bonjour"));
 	
 	printf("-------second_str_shorter------\n\n");
 	printf("check ft_strcmp = %d\n", ft_strcmp("bonjour", "bon"));
