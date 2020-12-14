@@ -6,11 +6,11 @@
 /*   By: mmaj <mmaj@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 16:19:48 by mmaj              #+#    #+#             */
-/*   Updated: 2020/12/12 17:19:18 by mmaj             ###   ########.fr       */
+/*   Updated: 2020/12/14 18:49:24 by mmaj             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libasm.h"
+#include "./header/libasm.h"
 
 
 void	test_ft_strlen()
@@ -31,109 +31,128 @@ void	test_ft_strlen()
 
 void	test_ft_strcpy()
 {
-	char s1[] = {"blabla"};
-	char s2[] = {"j'aime jnljbljbmbmb!vkhkmefvqefbqbegbebebebaetbaetbaetbaetbaetb"};
-	char empt_s[] = {""};
+	char s2[] = {"j'aime jnljbljbmbmb!vkhkmefvqefbqbegbeb"};
 	char d[300];
 
 	printf("-------TEST_FT_STRCPY------\n\n");
 	printf("-------regular_string------\n\n");
-	printf("check strcpy = %s\n", strcpy(d, s2));
-	printf("check ft_strcpy = %s\n\n", ft_strcpy(d, s2));
+	printf("check strcpy = \"%s\"\n", strcpy(d, s2));
+	printf("check ft_strcpy = \"%s\"\n\n", ft_strcpy(d, s2));
 	printf("-------empty_string------\n\n");
-	printf("check strcpy = %s\n", strcpy(d, ""));
-	printf("check ft_strcpy = %s\n\n", ft_strcpy(d, ""));
+	printf("check strcpy = \"%s\"\n", strcpy(d, ""));
+	printf("check ft_strcpy = \"%s\"\n\n", ft_strcpy(d, ""));
 	printf("------------------------------------\n\n");
 }
 
-void	test_ft_strcmp()
+void	test_ft_strcmp(const char *s1, const char *s2)
 {
-	char *str1 = {"bonj"};
-	char *str2 = {"bon"};
+	printf("check ft_strcmp = %d\n", ft_strcmp(s1, s2));
+	printf("check strcmp = %d\n\n", strcmp(s1, s2));
+}
+
+void	test_ft_write(int fd, const void *buf, ssize_t n)
+{
 	int d;
 
-	printf("-------TEST_FT_STRCMP------\n\n");
-	printf("-------equals_strings------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("bonj", "bon"));
-	d = strcmp(str1, str2);
-	printf("check strcmp = %d\n\n", d);
-
-	printf("-------first_str_shorter------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp(str1, str2));
-	printf("check strcmp = %d\n\n", strcmp(str1, str2));
-	
-	printf("-------second_str_shorter------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("bonjour", "bon"));
-	printf("check strcmp = %d\n\n", strcmp("bonjour", "bon"));
-
-	printf("-------first_str_null------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("", "bon"));
-	printf("check strcmp = %d\n\n", strcmp("", "bon"));
-	
-	printf("-------second_str_null------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("bonjour", ""));
-	printf("check strcmp = %d\n\n", strcmp("bonjour", ""));	
-
-	printf("-------both_str_null------\n\n");
-	printf("check ft_strcmp = %d\n", ft_strcmp("", ""));
-	printf("check strcmp = %d\n\n", strcmp("", ""));
-
-	printf("------------------------------------\n\n");
+	printf("write output | ");
+	errno = 0;
+	d =	write(fd, buf, n);
+	printf("return value is : %d | errno = %d\n", d, errno);
+	printf("ft_write output | ");
+	errno = 0;
+	d =	ft_write(fd, buf, n);
+	printf("return value is : %d | errno = %d\n", d, errno);
 }
 
-void	test_ft_write()
+void	test_ft_read(char *file, int n)
 {
-	printf("-------TEST_FT_WRITE------\n\n");
-	printf("check write ret = %zd\n", write(1, "im writing\n", 11));
-	printf("check ft_write ret = %zd\n\n", ft_write(1, "im writing\n", 11));
-
-	printf("------------------------------------\n\n");
-}
-
-void	test_ft_read()
-{
-	char *buf;
+	char buf1[300];
+	char buf2[300];
+	int  i;
 	int  fd;
 	int  ret;
 
-	printf("-------TEST_FT_READ------\n\n");
-	fd = open("Makefile", O_RDONLY);
-	buf = malloc(5);
-	ret = read(fd, buf, 5);
-	buf[ret] = 0;
-	printf("check read_ret = %d\ncheck read_buf = %s\n\n", ret, buf);
-	ret = ft_read(fd, buf, 5);
-	buf[ret] = 0;
-	printf("check ft_read_ret = %d\ncheck ft_read_buf = %s\n\n", ret, buf);
-	free(buf);
+	i = 0;
+	while (i < 300)
+	{
+		buf1[i] = 0;
+		buf2[i++] = 0;
+	}
+	errno = 0;
+	fd = open(file, O_RDONLY);
+	ret = read(fd, buf1, n); 
+	printf("read_buf = \"%s\"\n", buf1);
+	printf("read_ret = %d\n", ret);
+	printf("read_errno = %d\n", errno);
+	close(fd);
+
+	errno = 0;
+	fd = open(file, O_RDONLY);
+	ret = ft_read(fd, buf2, n);
+	printf("ft_read_buf = \"%s\"\n", buf2);
+	printf("ft_read_ret = %d\n", ret);
+	printf("ft_read_errno = %d\n", errno);
 	close(fd);
 }
 
-void	test_ft_strdup()
+void	test_ft_strdup(const char *s)
 {
-	char	*str = {"bonjour\n"};
 	char	*m_str;
-	char	*str2 = {"bonjour\n"};
 	char	*m_str2;
 
-	m_str = strdup(str);
-	m_str2 = ft_strdup(str2);
-	printf("-------TEST_FT_STRDUP------\n\n");
-	printf("check strdup = %s", m_str);
-	printf("check ft_strdup = %s\n\n", m_str2);
+	errno = 0;
+	m_str = strdup(s);
+	printf("strdup = \"%s\"\n", m_str);
+	printf("errno = %d\n", errno);
 	free(m_str);
+	errno = 0;
+	m_str2 = ft_strdup(s);
+	printf("ft_strdup = \"%s\"\n", m_str2);
+	printf("errno = %d\n", errno);
 	free(m_str2);
-
-	printf("------------------------------------\n\n");
 }
 
 int		main()
 {
 	test_ft_strlen();
 	test_ft_strcpy();
-	test_ft_strcmp();
-	test_ft_write();
-	test_ft_read();
-	test_ft_strdup();
+
+	printf("-------TEST_FT_STRCMP------\n\n");
+	printf("equals_strings------\n");
+	test_ft_strcmp("bonjour", "bonjour");
+	printf("first_str_shorter------\n");
+	test_ft_strcmp("bonj", "bonjour");
+	printf("second_str_shorter------\n");
+	test_ft_strcmp("bonjour", "bonjo");
+	printf("first_str_null------\n");
+	test_ft_strcmp("", "bonjour");
+	printf("second_str_null------\n");
+	test_ft_strcmp("bonj", "");
+	printf("both_str_null------\n");
+	test_ft_strcmp("", "");
+
+	printf("-------TEST_FT_WRITE------\n\n");
+	printf("regular_stdout------\n");
+	test_ft_write(1, "Im regular output\n", 18);
+	printf("\nregular_stderr------\n");
+	test_ft_write(2, "Im stderr  output\n", 18);
+	printf("\nnegative len------\n");
+	test_ft_write(1, "Im negative len output\n", -23);
+	printf("\nnegative fd------\n");
+	test_ft_write(-2, "Im negative fd output\n", -22);
+
+	printf("\n-------TEST_FT_READ------\n");
+	printf("\nlen > file_size------\n");
+	test_ft_read("test.txt", 250);
+	printf("\nlen < file_size------\n");
+	test_ft_read("test.txt", 25);
+	printf("\nlen < 0------\n");
+	test_ft_read("test.txt", -50);
+
+	printf("\n-------TEST_FT_STRDUP------\n");
+	printf("\nregular str------\n");
+	test_ft_strdup("j'aime le fromage");
+	printf("\nempty str------\n");
+	test_ft_strdup("");
 	return (0);
 }

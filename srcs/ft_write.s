@@ -7,7 +7,7 @@ section	.text:
 ;rdx = 3 arg (nb of char)
 
 global	ft_write
-extern	_errno_location
+extern	__errno_location ; récup l'adr de errno
 
 ft_write:
 
@@ -19,6 +19,12 @@ jl	error ; jl = jump if < 0
 ret
 
 error:
-push rax ; ne pas perdre rax
-call _errno_location
-mov rax, -1
+
+neg		rax
+mov		rdi, rax ; ne pas perdre rax
+call	__errno_location
+mov		[rax], rdi ; set value of errno
+mov		rax, -1
+ret
+
+; on aurait aussi pu utilisr la stack comme buf au lieu de rdi
