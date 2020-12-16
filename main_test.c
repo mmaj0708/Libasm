@@ -6,7 +6,7 @@
 /*   By: mmaj <mmaj@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 16:19:48 by mmaj              #+#    #+#             */
-/*   Updated: 2020/12/14 18:49:24 by mmaj             ###   ########.fr       */
+/*   Updated: 2020/12/16 16:01:24 by mmaj             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int		main()
 	printf("\nnegative len------\n");
 	test_ft_write(1, "Im negative len output\n", -23);
 	printf("\nnegative fd------\n");
-	test_ft_write(-2, "Im negative fd output\n", -22);
+	test_ft_write(-2, "Im negative fd output\n", 22);
 
 	printf("\n-------TEST_FT_READ------\n");
 	printf("\nlen > file_size------\n");
